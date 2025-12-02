@@ -11,7 +11,7 @@ export async function appendToSheet(data: {
   stripeSessionId: string;
 }) {
   try {
-    // Validate environment variables
+    // Validate environment variables at runtime
     if (!process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL) {
       throw new Error('GOOGLE_SERVICE_ACCOUNT_EMAIL is not set');
     }
@@ -27,7 +27,7 @@ export async function appendToSheet(data: {
     const auth = new google.auth.GoogleAuth({
       credentials: {
         client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
-        private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+        private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
       },
       scopes: ['https://www.googleapis.com/auth/spreadsheets'],
     });
@@ -77,7 +77,6 @@ export async function appendToSheet(data: {
       console.error('API errors:', JSON.stringify(error.errors, null, 2));
     }
     
-    // Check for common issues
     if (error.message?.includes('permission')) {
       console.error('HINT: Make sure the service account has Editor access to the sheet');
     }

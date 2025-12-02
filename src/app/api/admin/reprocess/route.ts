@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { appendToSheet } from '@/lib/googleSheets';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const { sessionId } = await request.json();

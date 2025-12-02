@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   console.log('=== Checkout API called ===');
   console.log('Timestamp:', new Date().toISOString());
