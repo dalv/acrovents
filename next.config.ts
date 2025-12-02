@@ -1,7 +1,8 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  basePath: '/paulo-thailand',
+  // ... any other config you have
 };
 
 export default nextConfig;
