@@ -12,18 +12,18 @@ type Session = {
 
 const sessions: Session[] = [
   {
-    id: 'jan16-morning',
-    date: 'Jan 16',
-    time: 'Morning',
-    name: 'Hard Flow',
-    timeRange: '10:00 - 13:00',
-  },
-  {
     id: 'jan16-afternoon',
     date: 'Jan 16',
     time: 'Afternoon',
+    name: 'Hard Flow',
+    timeRange: '13:00 - 16:00',
+  },
+  {
+    id: 'jan16-evening',
+    date: 'Jan 16',
+    time: 'Evening',
     name: 'Icarian Pops',
-    timeRange: '14:30 - 17:30',
+    timeRange: '17:00 - 20:00',
   },
   {
     id: 'jan17-morning',
