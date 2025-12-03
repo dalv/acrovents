@@ -14,28 +14,28 @@ const sessions: Session[] = [
   {
     id: 'jan16-afternoon',
     date: 'Jan 16',
-    time: 'Afternoon',
+    time: 'Friday Afternoon',
     name: 'Hard Flow',
     timeRange: '13:00 - 16:00',
   },
   {
     id: 'jan16-evening',
     date: 'Jan 16',
-    time: 'Evening',
+    time: 'Friday Evening',
     name: 'Icarian Pops',
     timeRange: '17:00 - 20:00',
   },
   {
     id: 'jan17-morning',
     date: 'Jan 17',
-    time: 'Morning',
+    time: 'Saturday Morning',
     name: 'Hard Flow II',
     timeRange: '10:00 - 13:00',
   },
   {
     id: 'jan17-afternoon',
     date: 'Jan 17',
-    time: 'Afternoon',
+    time: 'Saturday Afternoon',
     name: 'Advanced Icarian',
     timeRange: '14:30 - 17:30',
   },
@@ -45,12 +45,12 @@ const sessions: Session[] = [
 const PRICING = {
   earlyBird: {
     deadline: new Date('2026-01-02T23:59:59'),
-    singleSession: 25,
-    fullWeekend: 80,
-  },
-  regular: {
     singleSession: 30,
     fullWeekend: 100,
+  },
+  regular: {
+    singleSession: 35,
+    fullWeekend: 120,
   },
 };
 
