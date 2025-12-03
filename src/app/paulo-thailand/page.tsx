@@ -185,7 +185,7 @@ export default function PauloThailandPage() {
                     muted
                     loop
                     className="h-full w-full object-cover"
-                    style={{ objectPosition: '50% 55%' }}
+                    style={{ objectPosition: '50% 65%' }}
                   >
                     Your browser does not support the video tag.
                   </video>

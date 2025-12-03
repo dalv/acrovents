@@ -56,40 +56,40 @@ export default function LandingPage() {
       {/* Main content */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
         
-        {/* Small tagline */}
-        <div className="mb-6 flex items-center gap-3">
-          <div className="h-px w-12 bg-gradient-to-r from-transparent to-white/50" />
-          <span className="text-sm tracking-[0.3em] text-white/60 uppercase font-light">
-            Movement • Connection • Flow
-          </span>
-          <div className="h-px w-12 bg-gradient-to-l from-transparent to-white/50" />
-        </div>
+      {/* Small tagline */}
+      <div className="mb-6 flex items-center gap-2 sm:gap-3">
+        <div className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-white/50" />
+        <span className="text-[10px] sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] text-white/60 uppercase font-light whitespace-nowrap">
+          Movement • Connection • Flow
+        </span>
+        <div className="h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-white/50" />
+      </div>
 
-        {/* Main title */}
-        <h1 className="text-center mb-8">
-          <span 
-            className="block text-8xl md:text-9xl font-bold tracking-tight"
-            style={{
-              background: 'linear-gradient(135deg, #fff 0%, #fff 40%, #ff6b6b 60%, #4ecdc4 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            ACRO
-          </span>
-          <span 
-            className="block text-8xl md:text-9xl font-extralight tracking-widest -mt-4"
-            style={{
-              background: 'linear-gradient(135deg, #4ecdc4 0%, #fff 40%, #fff 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}
-          >
-            EVENTS
-          </span>
-        </h1>
+      {/* Main title */}
+      <h1 className="text-center mb-8">
+        <span 
+          className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tight"
+          style={{
+            background: 'linear-gradient(135deg, #fff 0%, #fff 40%, #ff6b6b 60%, #4ecdc4 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
+        >
+          ACRO
+        </span>
+        <span 
+          className="block text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-extralight tracking-widest -mt-2 sm:-mt-4"
+          style={{
+            background: 'linear-gradient(135deg, #4ecdc4 0%, #fff 40%, #fff 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
+        >
+          EVENTS
+        </span>
+      </h1>
 
         {/* Subtitle */}
         <p className="text-white/50 text-lg md:text-xl text-center max-w-md font-light mb-16">
