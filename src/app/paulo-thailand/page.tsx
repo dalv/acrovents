@@ -330,11 +330,11 @@ export default function PauloThailandPage() {
                   </div>
                   <div className="text-teal-700">
                     <span className="font-bold">€100</span> full weekend
-                    <span className="text-teal-500 text-xs ml-1 line-through">€120</span>
+                    <span className="text-teal-500 text-xs ml-1 line-through">€140</span>
                   </div>
                   <div className="text-teal-600">
                     <span className="font-bold">€30</span>/session
-                    <span className="text-teal-500 text-xs ml-1 line-through">€30</span>
+                    <span className="text-teal-500 text-xs ml-1 line-through">€35</span>
                   </div>
                 </div>
                 
@@ -346,7 +346,7 @@ export default function PauloThailandPage() {
                   </div>
                   <div className="text-gray-600">
                     <span className="font-bold">€120</span> full weekend
-                    <span className="text-gray-400 text-xs ml-1 line-through">€120</span>
+                    <span className="text-gray-400 text-xs ml-1 line-through">€140</span>
                   </div>
                   <div className="text-gray-500">
                     <span className="font-bold">€35</span>/session
