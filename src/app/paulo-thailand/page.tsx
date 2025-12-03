@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
 type Session = {
   id: string;
@@ -8,7 +8,6 @@ type Session = {
   time: string;
   name: string;
   timeRange: string;
-  price: number;
 };
 
 const sessions: Session[] = [
@@ -18,7 +17,6 @@ const sessions: Session[] = [
     time: 'Morning',
     name: 'Hard Flow',
     timeRange: '10:00 - 13:00',
-    price: 700,
   },
   {
     id: 'jan16-afternoon',
@@ -26,7 +24,6 @@ const sessions: Session[] = [
     time: 'Afternoon',
     name: 'Icarian Pops',
     timeRange: '14:30 - 17:30',
-    price: 700,
   },
   {
     id: 'jan17-morning',
@@ -34,7 +31,6 @@ const sessions: Session[] = [
     time: 'Morning',
     name: 'Hard Flow II',
     timeRange: '10:00 - 13:00',
-    price: 700,
   },
   {
     id: 'jan17-afternoon',
@@ -42,9 +38,23 @@ const sessions: Session[] = [
     time: 'Afternoon',
     name: 'Advanced Icarian',
     timeRange: '14:30 - 17:30',
-    price: 700,
   },
 ];
+
+// Pricing configuration
+const PRICING = {
+  earlyBird: {
+    deadline: new Date('2026-01-02T23:59:59'),
+    singleSession: 25,
+    fullWeekend: 80,
+  },
+  regular: {
+    singleSession: 30,
+    fullWeekend: 100,
+  },
+};
+
+const FULL_WEEKEND_SESSION_COUNT = 4;
 
 export default function PauloThailandPage() {
   const [loading, setLoading] = useState(false);
@@ -56,6 +66,45 @@ export default function PauloThailandPage() {
     selectedSessions: [] as string[],
   });
 
+  const isEarlyBird = useMemo(() => {
+    return new Date() <= PRICING.earlyBird.deadline;
+  }, []);
+
+  const pricing = useMemo(() => {
+    const sessionCount = formData.selectedSessions.length;
+    const isFullWeekend = sessionCount === FULL_WEEKEND_SESSION_COUNT;
+    
+    // Calculate the "regular single session" price as reference (what they'd pay without any deals)
+    const referencePrice = sessionCount * PRICING.regular.singleSession;
+    
+    let actualPrice: number;
+    let appliedDeal: string | null = null;
+    
+    if (isFullWeekend) {
+      actualPrice = isEarlyBird ? PRICING.earlyBird.fullWeekend : PRICING.regular.fullWeekend;
+      appliedDeal = isEarlyBird ? 'Early Bird Full Weekend' : 'Full Weekend Bundle';
+    } else if (sessionCount > 0) {
+      const perSession = isEarlyBird ? PRICING.earlyBird.singleSession : PRICING.regular.singleSession;
+      actualPrice = sessionCount * perSession;
+      if (isEarlyBird) {
+        appliedDeal = 'Early Bird';
+      }
+    } else {
+      actualPrice = 0;
+    }
+    
+    const savings = referencePrice - actualPrice;
+    
+    return {
+      sessionCount,
+      isFullWeekend,
+      referencePrice,
+      actualPrice,
+      savings,
+      appliedDeal,
+    };
+  }, [formData.selectedSessions, isEarlyBird]);
+
   const handleSessionToggle = (sessionId: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -63,10 +112,6 @@ export default function PauloThailandPage() {
         ? prev.selectedSessions.filter((id) => id !== sessionId)
         : [...prev.selectedSessions, sessionId],
     }));
-  };
-
-  const calculateTotal = () => {
-    return formData.selectedSessions.length * 700;
   };
 
   const isFormValid = () => {
@@ -104,7 +149,8 @@ export default function PauloThailandPage() {
           acroRole: formData.acroRole,
           selectedSessions: formData.selectedSessions,
           sessionDetails: selectedSessionDetails,
-          totalAmount: calculateTotal(),
+          totalAmount: pricing.actualPrice,
+          currency: 'eur',
         }),
       });
 
@@ -126,8 +172,6 @@ export default function PauloThailandPage() {
       setLoading(false);
     }
   };
-
-  const total = calculateTotal();
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -234,40 +278,86 @@ export default function PauloThailandPage() {
             />
           </div>
 
-        <div className="mb-8">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Acro Role
-          </label>
-          <div className="flex gap-6">
-            <label className="flex items-center cursor-pointer">
-              <input
-                type="radio"
-                name="acroRole"
-                value="Base"
-                checked={formData.acroRole === 'Base'}
-                onChange={(e) => setFormData({ ...formData, acroRole: e.target.value })}
-                className="w-5 h-5 text-teal-600 focus:ring-2 focus:ring-teal-500 focus:ring-offset-0"
-              />
-              <span className="ml-3 text-gray-700">Base</span>
+          <div className="mb-8">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Acro Role
             </label>
-            <label className="flex items-center cursor-pointer">
-              <input
-                type="radio"
-                name="acroRole"
-                value="Flyer"
-                checked={formData.acroRole === 'Flyer'}
-                onChange={(e) => setFormData({ ...formData, acroRole: e.target.value })}
-                className="w-5 h-5 text-teal-600 focus:ring-2 focus:ring-teal-500 focus:ring-offset-0"
-              />
-              <span className="ml-3 text-gray-700">Flyer</span>
-            </label>
+            <div className="flex gap-6">
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="radio"
+                  name="acroRole"
+                  value="Base"
+                  checked={formData.acroRole === 'Base'}
+                  onChange={(e) => setFormData({ ...formData, acroRole: e.target.value })}
+                  className="w-5 h-5 text-teal-600 focus:ring-2 focus:ring-teal-500 focus:ring-offset-0"
+                />
+                <span className="ml-3 text-gray-700">Base</span>
+              </label>
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="radio"
+                  name="acroRole"
+                  value="Flyer"
+                  checked={formData.acroRole === 'Flyer'}
+                  onChange={(e) => setFormData({ ...formData, acroRole: e.target.value })}
+                  className="w-5 h-5 text-teal-600 focus:ring-2 focus:ring-teal-500 focus:ring-offset-0"
+                />
+                <span className="ml-3 text-gray-700">Flyer</span>
+              </label>
+            </div>
           </div>
-        </div>
 
           {/* Session Selection */}
           <div className="mb-8">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Select Sessions</h3>
-            <p className="text-sm text-gray-500 mb-4">700 THB per session</p>
+            
+            {/* Pricing Box */}
+            <div className="bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-200 rounded-xl p-4 mb-6">
+              {isEarlyBird && (
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="bg-teal-600 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">
+                    🎉 EARLY BIRD
+                  </span>
+                  <span className="text-xs text-teal-700">Book by Jan 2nd!</span>
+                </div>
+              )}
+              
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div className={`${isEarlyBird ? '' : 'opacity-50'}`}>
+                  <div className="font-semibold text-teal-800 mb-1">
+                    {isEarlyBird ? '→ ' : ''}Early Bird
+                    {isEarlyBird && <span className="text-xs font-normal ml-1">(now!)</span>}
+                  </div>
+                  <div className="text-teal-700">
+                    <span className="font-bold">€80</span> full weekend
+                    <span className="text-teal-500 text-xs ml-1 line-through">€120</span>
+                  </div>
+                  <div className="text-teal-600">
+                    <span className="font-bold">€25</span>/session
+                    <span className="text-teal-500 text-xs ml-1 line-through">€30</span>
+                  </div>
+                </div>
+                
+                <div className={`${isEarlyBird ? 'opacity-50' : ''}`}>
+                  <div className="font-semibold text-gray-600 mb-1">
+                    {!isEarlyBird ? '→ ' : ''}Regular
+                    {!isEarlyBird && <span className="text-xs font-normal ml-1">(now)</span>}
+                  </div>
+                  <div className="text-gray-600">
+                    <span className="font-bold">€100</span> full weekend
+                    <span className="text-gray-400 text-xs ml-1 line-through">€120</span>
+                  </div>
+                  <div className="text-gray-500">
+                    <span className="font-bold">€30</span>/session
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-3 pt-3 border-t border-teal-200 text-xs text-teal-700">
+                💡 Best value: Book all 4 sessions and save up to €40!
+              </div>
+            </div>
 
             <div className="space-y-3">
               {sessions.map((session) => {
@@ -326,10 +416,29 @@ export default function PauloThailandPage() {
           {/* Total and Payment */}
           <div className="border-t border-gray-100 pt-6">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-gray-600 font-medium">Total</span>
-              <span className="text-2xl font-bold text-teal-700">
-                {total.toLocaleString()} THB
-              </span>
+              <div>
+                <span className="text-gray-600 font-medium">Total</span>
+                {pricing.appliedDeal && (
+                  <div className="text-xs text-teal-600 font-medium">
+                    {pricing.appliedDeal} applied!
+                  </div>
+                )}
+              </div>
+              <div className="text-right">
+                {pricing.savings > 0 && (
+                  <div className="text-gray-400 line-through text-sm">
+                    €{pricing.referencePrice}
+                  </div>
+                )}
+                <span className="text-2xl font-bold text-teal-700">
+                  €{pricing.actualPrice}
+                </span>
+                {pricing.savings > 0 && (
+                  <div className="text-xs text-green-600 font-semibold">
+                    You save €{pricing.savings}!
+                  </div>
+                )}
+              </div>
             </div>
             
             <button
