@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Paulo from Portugal in Koh Pangan",
-  description: "Paulo from Portugal Acro Workshops Koh Pangan",
+  title: "Acro Events",
+  description: "Curated acrobatic workshops and gatherings around the world",
 };
 
 export default function RootLayout({
