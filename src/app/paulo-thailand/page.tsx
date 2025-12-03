@@ -154,7 +154,7 @@ export default function PauloThailandPage() {
             </div>
           </div>
         </div>
-
+           
         <div className="p-6 sm:p-8">
           {/* Venue Info */}
           <div className="mb-8 text-center sm:text-left">
@@ -174,6 +174,24 @@ export default function PauloThailandPage() {
               </div>
             </div>
 
+           {/* Video Section */}
+            <div className="mb-6">
+              <div className="flex justify-center">
+                <div className="h-[280px] w-full overflow-hidden rounded-xl shadow-lg">
+                  <video
+                    src="/images/paulo-demo.mov"
+                    playsInline
+                    autoPlay
+                    muted
+                    loop
+                    className="h-full w-full object-cover"
+                    style={{ objectPosition: '50% 55%' }}
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </div>
+            </div>
             <div className="text-gray-600 leading-relaxed space-y-3">
               <p>
                 Paulo from Portugal is coming to Koh Phangan for a few days to share his acro experience with the local community.
