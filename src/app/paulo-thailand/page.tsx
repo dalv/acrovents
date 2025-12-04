@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import MapAccordion from './MapAccordion';
 
 type Session = {
   id: string;
@@ -253,23 +254,18 @@ export default function PauloThailandPage() {
           {/* Venue Info */}
           <div className="mb-8 text-center sm:text-left">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end border-b border-gray-100 pb-6 mb-6">
-              <a
-                href="https://maps.app.goo.gl/oSCpY9NASgY3HbRL6"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block"
-              >
-                <h2 className="text-2xl font-semibold text-gray-900 group-hover:underline">
+              <div>
+                <h2 className="text-2xl font-semibold text-gray-900">
                   Sati Yoga
                 </h2>
-                <p className="text-gray-500 flex items-center justify-center sm:justify-start gap-1 mt-1 group-hover:underline">
+                <p className="text-gray-500 flex items-center justify-center sm:justify-start gap-1 mt-1">
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                   </svg>
                   Koh Phangan, Thailand
                 </p>
-              </a>
+              </div>
               <div className="mt-4 sm:mt-0 text-teal-600 font-semibold text-sm bg-teal-50 px-3 py-1 rounded-full inline-block">
                 Jan 16 - 17
               </div>
@@ -292,6 +288,11 @@ export default function PauloThailandPage() {
                 </div>
               </div>
             </div>
+
+            <div className="mb-6">
+              <MapAccordion />
+            </div>
+
             <div className="text-gray-600 leading-relaxed space-y-3">
               <p>
                 Paulo from Portugal and Asti are coming to Koh Phangan for a few days to share their acro experience with the local community.
