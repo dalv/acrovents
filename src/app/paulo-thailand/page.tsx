@@ -65,7 +65,7 @@ const TEST_SESSION: Session = {
   timeRange: 'N/A',
   description: 'This is a test session for development purposes only. Price: 1 Euro.',
   prereqs: 'None',
-  image: '/images/dev-only.jpg',
+  image: '/images/dev-only.png',
 };
 
 const SHOW_TEST_SESSION = process.env.NEXT_PUBLIC_SHOW_TEST_SESSION === 'true';
