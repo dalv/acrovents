@@ -554,6 +554,17 @@ export default function PauloThailandPage() {
               </p>
             )}
           </div>
+
+          {/* Cancellation Policy */}
+          <div className="mt-8 pt-6 border-t border-gray-100 text-gray-500 text-sm">
+            <p className="font-medium mb-2">Cancellation policy</p>
+            <p>
+              If you are no longer able to attend the workshop, please contact us by email (paulofromportugal.acro@gmail.com) to let us know.
+            </p>
+            <p className="mt-2">
+              If you cancel your reservation on January 10th or later, you can no longer receive a refund. In case we cancel the Workshop, you will get a reimbursement of the amount paid. The refund does not include any travel or any other expenses.
+            </p>
+          </div>
         </div>
       </main>
 
