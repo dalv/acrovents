@@ -15,13 +15,6 @@ export default function Success() {
         >
           Back to Home
         </a>
-        
-        {/* Test Mode Notice - Remove this when going live */}
-        <div className="mt-8 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-          <p className="text-amber-800 text-sm">
-            ⚠️ <strong>Test Mode:</strong> This is a demo environment. No actual payment was processed and no money was charged.
-          </p>
-        </div>
       </div>
     </div>
   );
