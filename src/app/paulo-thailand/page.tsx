@@ -8,6 +8,8 @@ type Session = {
   time: string;
   name: string;
   timeRange: string;
+  description: string;
+  prereqs: string;
 };
 
 const sessions: Session[] = [
@@ -17,27 +19,35 @@ const sessions: Session[] = [
     time: 'Friday Afternoon',
     name: 'Hard Flow',
     timeRange: '13:00 - 16:00',
+    description: 'Explore challenging washing machine sequences with dynamic transitions. Focus on building stamina and precision through continuous movement patterns.',
+    prereqs: 'Comfortable with basic washing machines: Ninja Star, Ballerina',
   },
   {
     id: 'jan16-evening',
     date: 'Jan 16',
     time: 'Friday Evening',
-    name: 'Icarian Pops',
+    name: 'Icarian Part I',
     timeRange: '17:00 - 20:00',
+    description: 'Refining Icarians - become more comfortable with the foundations of timing, trust, and technique needed for safe and confident pops.',
+    prereqs: 'Experience with basic straight throws (bird to bird, throne to throne)',
   },
   {
     id: 'jan17-morning',
     date: 'Jan 17',
     time: 'Saturday Morning',
-    name: 'Hard Flow II',
+    name: 'No Hand Flow',
     timeRange: '10:00 - 13:00',
+    description: 'Develop hands-free sequences using the right balance and momentum. Perfect for building creativity and trust in your partnership.',
+    prereqs: 'Comfortable with star, side star and basic washing machines',
   },
   {
     id: 'jan17-afternoon',
     date: 'Jan 17',
     time: 'Saturday Afternoon',
-    name: 'Advanced Icarian',
+    name: 'Icarian Part II',
     timeRange: '14:30 - 17:30',
+    description: 'Building on Part I, explore variations, catches, and more complicated icarians. For those ready to take their icarian work to the next level.',
+    prereqs: 'Consistent strainght throws and experience with bird to throne / throne to bird',
   },
 ];
 
@@ -59,6 +69,7 @@ const FULL_WEEKEND_SESSION_COUNT = 4;
 export default function PauloThailandPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [expandedSessions, setExpandedSessions] = useState<Set<string>>(new Set());
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -74,7 +85,6 @@ export default function PauloThailandPage() {
     const sessionCount = formData.selectedSessions.length;
     const isFullWeekend = sessionCount === FULL_WEEKEND_SESSION_COUNT;
     
-    // Calculate the "regular single session" price as reference (what they'd pay without any deals)
     const referencePrice = sessionCount * PRICING.regular.singleSession;
     
     let actualPrice: number;
@@ -112,6 +122,19 @@ export default function PauloThailandPage() {
         ? prev.selectedSessions.filter((id) => id !== sessionId)
         : [...prev.selectedSessions, sessionId],
     }));
+  };
+
+  const toggleExpanded = (sessionId: string, e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent triggering the checkbox
+    setExpandedSessions((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(sessionId)) {
+        newSet.delete(sessionId);
+      } else {
+        newSet.add(sessionId);
+      }
+      return newSet;
+    });
   };
 
   const isFormValid = () => {
@@ -185,10 +208,8 @@ export default function PauloThailandPage() {
             className="w-full h-full object-cover"
           />
           
-          {/* Overlay gradient for text readability */}
           <div className="absolute inset-0 bg-gradient-to-br from-teal-900/70 to-emerald-900/70"></div>
           
-          {/* Content */}
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="z-10 text-center">
               <h1 className="text-3xl font-bold text-white mt-2 tracking-tight drop-shadow-lg">
@@ -218,7 +239,7 @@ export default function PauloThailandPage() {
               </div>
             </div>
 
-           {/* Video Section */}
+            {/* Video Section */}
             <div className="mb-6">
               <div className="flex justify-center">
                 <div className="h-[280px] w-full overflow-hidden rounded-xl shadow-lg">
@@ -359,48 +380,102 @@ export default function PauloThailandPage() {
               </div>
             </div>
 
+            {/* Session Cards with Accordion */}
             <div className="space-y-3">
               {sessions.map((session) => {
                 const isSelected = formData.selectedSessions.includes(session.id);
+                const isExpanded = expandedSessions.has(session.id);
                 
                 return (
-                  <label key={session.id} className="cursor-pointer block group">
-                    <input
-                      type="checkbox"
-                      checked={isSelected}
-                      onChange={() => handleSessionToggle(session.id)}
-                      className="hidden"
-                    />
-                    <div className={`border rounded-xl p-4 flex items-center justify-between transition-all ${
-                      isSelected 
-                        ? 'bg-teal-50 border-teal-600 shadow-md' 
-                        : 'border-gray-200 bg-white hover:border-teal-300'
-                    }`}>
-                      <div>
-                        <div className="text-sm text-teal-600 font-bold">
-                          {session.date} • {session.time}
-                        </div>
-                        <div className="font-medium text-gray-900">{session.name}</div>
-                        <div className="text-xs text-gray-500 mt-1">{session.timeRange}</div>
-                      </div>
-                      <div className={`w-6 h-6 rounded border-2 flex items-center justify-center transition-all ${
+                  <div key={session.id} className="group">
+                    <div
+                      onClick={() => handleSessionToggle(session.id)}
+                      className={`cursor-pointer border rounded-xl transition-all ${
                         isSelected 
-                          ? 'bg-teal-600 border-teal-600' 
-                          : 'border-teal-500 bg-white'
-                      }`}>
-                        <svg 
-                          className={`w-4 h-4 text-white transition-all ${
-                            isSelected ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
-                          }`}
-                          fill="none" 
-                          stroke="currentColor" 
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
-                        </svg>
+                          ? 'bg-teal-50 border-teal-600 shadow-md' 
+                          : 'border-gray-200 bg-white hover:border-teal-300'
+                      } ${isExpanded ? 'rounded-b-none' : ''}`}
+                    >
+                      <div className="p-4 flex items-center justify-between">
+                        <div className="flex-1">
+                          <div className="text-sm text-teal-600 font-bold">
+                            {session.date} • {session.time}
+                          </div>
+                          <div className="font-medium text-gray-900">{session.name}</div>
+                          <div className="text-xs text-gray-500 mt-1">{session.timeRange}</div>
+                        </div>
+                        
+                        <div className="flex items-center gap-3">
+                          {/* Details Toggle Button */}
+                          <button
+                            onClick={(e) => toggleExpanded(session.id, e)}
+                            className="text-xs text-teal-600 hover:text-teal-800 font-medium flex items-center gap-1 px-2 py-1 rounded hover:bg-teal-100 transition-colors"
+                          >
+                            <svg 
+                              className={`w-4 h-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+                              fill="none" 
+                              stroke="currentColor" 
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                            <span>{isExpanded ? 'Less' : 'Details'}</span>
+                          </button>
+                          
+                          {/* Checkbox */}
+                          <div className={`w-6 h-6 rounded border-2 flex items-center justify-center transition-all ${
+                            isSelected 
+                              ? 'bg-teal-600 border-teal-600' 
+                              : 'border-teal-500 bg-white'
+                          }`}>
+                            <svg 
+                              className={`w-4 h-4 text-white transition-all ${
+                                isSelected ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
+                              }`}
+                              fill="none" 
+                              stroke="currentColor" 
+                              viewBox="0 0 24 24"
+                            >
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  </label>
+                    
+                    {/* Expanded Content */}
+                    <div 
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      <div className={`px-4 pb-4 pt-3 border border-t-0 rounded-b-xl ${
+                        isSelected 
+                          ? 'bg-teal-50/50 border-teal-600' 
+                          : 'border-gray-200 bg-gray-50'
+                      }`}>
+                        <div className="space-y-3">
+                          <div>
+                            <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                              About this workshop
+                            </div>
+                            <p className="text-sm text-gray-700 leading-relaxed">
+                              {session.description}
+                            </p>
+                          </div>
+                          
+                          <div>
+                            <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                              Prerequisites
+                            </div>
+                            <p className="text-sm text-gray-700 leading-relaxed">
+                              {session.prereqs}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 );
               })}
             </div>
