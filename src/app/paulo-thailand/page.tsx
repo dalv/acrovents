@@ -217,7 +217,7 @@ export default function PauloThailandPage() {
           
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="z-10 text-center">
-              <h1 className="text-3xl font-bold text-white mt-2 tracking-tight drop-shadow-lg">
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mt-2 tracking-tight drop-shadow-lg">
                 Paulo from Portugal and Asti
               </h1>
               <p className="text-teal-100 font-medium drop-shadow">Intensive Acro Training</p>
